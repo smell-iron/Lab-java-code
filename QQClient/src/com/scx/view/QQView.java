@@ -1,5 +1,6 @@
 package com.scx.view;
 
+import com.scx.service.FileClientService;
 import com.scx.service.MessageClientService;
 import com.scx.service.UserClientService;
 import com.scx.utils.Utility;
@@ -17,6 +18,7 @@ public class QQView {
     private String key = "";
     private UserClientService userClientService = new UserClientService();
     private MessageClientService messageClientService = new MessageClientService();
+    private FileClientService fileClientService = new FileClientService();
 
     private void mainMenu() throws IOException, ClassNotFoundException {
         while (loop) {
@@ -46,16 +48,25 @@ public class QQView {
                                     System.out.println("1");
                                     break;
                                 case "2":
+                                    System.out.println("请输入群发消息");
+                                    String content = Utility.readString(100);
+                                    messageClientService.sendMessageToAll(userId, content);
                                     break;
                                 case "3":
                                     System.out.println("请输入想私聊的用户名");
                                     String receive = Utility.readString(50);
                                     System.out.println("请输入要发送的内容");
-                                    String content = Utility.readString(100);
+                                    content = Utility.readString(100);
                                     messageClientService.sendMessageToOne(content, userId, receive);
                                     break;
                                 case "4":
-                                    System.out.println("4");
+                                    System.out.println("请输入要发送的文件地址");
+                                    String src = Utility.readString(100);
+                                    System.out.println("请输入对方用户电脑的目标地址");
+                                    String dest = Utility.readString(100);
+                                    System.out.println("请输入要发送的用户名");
+                                    String receiver = Utility.readString(50);
+                                    fileClientService.sendFileToOne(src,dest,userId, receiver);
                                     break;
                                 case "9":
                                     loop = false;

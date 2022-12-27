@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class ServerConnectClientThread extends Thread {
     private Socket socket;
@@ -65,6 +66,21 @@ public class ServerConnectClientThread extends Thread {
                         objectOutputStream.writeObject(message);
                     } else { // 对方不在线，告知无法发送
                         message.setContent("我现在不在线，请回头再联系");
+                    }
+                } else if (message.getMesType().equals(MessageType.MESSAGE_TO_ALL_MES)){
+                    System.out.println(message.getSender() + "群发了一条消息");
+                    List<ServerConnectClientThread> allOnlineClientThread = ManageClientThreads.getAllOnlineClientThread();
+                    for (int i = 0; i < allOnlineClientThread.size(); i++) {
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(allOnlineClientThread.get(i).getSocket().getOutputStream());
+                        objectOutputStream.writeObject(message);
+                    }
+                } else if (message.getMesType().equals(MessageType.MESSAGE_FILE_MES)) {
+                    if (ManageClientThreads.getClientThread(message.getReceive()) != null) {
+                        System.out.println(message.getSender() + "给" + message.getReceive() + "发送了一个文件");
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(ManageClientThreads.getClientThread(message.getReceive()).getSocket().getOutputStream());
+                        objectOutputStream.writeObject(message);
+                    } else {
+                        System.out.println(message.getReceive() + "没登录，无法发送文件");
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

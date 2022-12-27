@@ -29,7 +29,7 @@ public class UserClientService {
 
         if (message.getMesType().equals(MessageType.MESSAGE_LOGIN_SUCCEED)) {
             b = true;
-            ClientConnectServerThread ccst = new ClientConnectServerThread(socket);
+            ClientConnectServerThread ccst = new ClientConnectServerThread(socket, u);
             ManageClientConnectServerThread.addClientConnectServerThread(userId, ccst);
             ccst.start();
         } else {

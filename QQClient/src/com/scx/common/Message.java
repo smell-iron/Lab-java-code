@@ -12,6 +12,43 @@ public class Message implements Serializable {
     private String content;
     private String sendTime;
     private String mesType;
+    // 和文件相关的类成员
+    private byte[] fileBytes;
+    private int fileLen = 0;
+    private String src;
+    private String dest;
+
+    public byte[] getFileBytes() {
+        return fileBytes;
+    }
+
+    public void setFileBytes(byte[] fileBytes) {
+        this.fileBytes = fileBytes;
+    }
+
+    public int getFileLen() {
+        return fileLen;
+    }
+
+    public void setFileLen(int fileLen) {
+        this.fileLen = fileLen;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    public String getDest() {
+        return dest;
+    }
+
+    public void setDest(String dest) {
+        this.dest = dest;
+    }
 
     public String getMesType() {
         return mesType;
